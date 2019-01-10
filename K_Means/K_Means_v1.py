@@ -75,32 +75,27 @@ Modify:
 """
 def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
     '''
-    :param dataSet: data file
+    :param dataSet: data file [[]]
     :param k: the nums of k
     :param distMeas: the function computed distanse between two points
     :param createCent:
     :return: result by k-means
     '''
-    # 获取数据集样本数
+    # 获取数据集样本数，初始化一个（m,2）全零矩阵
     m = np.shape(dataSet)[0]
-    # 初始化一个（m,2）全零矩阵
     clusterAssment = np.mat(np.zeros((m, 2)))
     # 创建初始的k个质心向量
     centroids = createCent(dataSet, k)
-    # 聚类结果是否发生变化的布尔类型
+
     clusterChanged = True
-    # 只要聚类结果一直发生变化，就一直执行聚类算法，直至所有数据点聚类结果不发生变化
     while clusterChanged:
-        # 聚类结果变化布尔类型置为False
         clusterChanged = False
-        # 遍历数据集每一个样本向量
         for i in range(m):
             # 初始化最小距离为正无穷，最小距离对应的索引为-1
             minDist = float('inf')
             minIndex = -1
             # 循环k个类的质心
             for j in range(k):
-                # 计算数据点到质心的欧氏距离
                 distJI = distMeas(centroids[j, :], dataSet[i, :])
                 # 如果距离小于当前最小距离
                 if distJI < minDist:
@@ -113,7 +108,7 @@ def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
             # 更新当前变化样本的聚类结果和平方误差
             clusterAssment[i, :] = minIndex, minDist**2
             # 打印k-means聚类的质心
-        # print(centroids)
+        print(centroids)
         # 遍历每一个质心
         for cent in range(k):
             # 将数据集中所有属于当前质心类的样本通过条件过滤筛选出来
